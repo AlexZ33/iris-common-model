@@ -3,6 +3,7 @@ module github.com/AlexZ33/iris-common-model
 go 1.18
 
 require (
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/google/uuid v1.3.0
 	github.com/json-iterator/go v1.1.12
 	github.com/kataras/iris/v12 v12.0.1
