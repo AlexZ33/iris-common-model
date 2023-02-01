@@ -4,6 +4,7 @@ go 1.18
 
 require (
 	github.com/AlexZ33/iris-extend-helper v1.0.0
+	github.com/AlexZ33/iris-extend-server v0.0.0-20230131063400-f80122516b4c
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/google/uuid v1.3.0
 	github.com/json-iterator/go v1.1.12
@@ -16,6 +17,7 @@ require (
 	github.com/CloudyKit/fastprinter v0.0.0-20200109182630-33d98a066a53 // indirect
 	github.com/CloudyKit/jet/v3 v3.0.1 // indirect
 	github.com/Shopify/goreferrer v0.0.0-20220729165902-8cddb4f5de06 // indirect
+	github.com/allegro/bigcache v1.2.1 // indirect
 	github.com/andybalholm/brotli v1.0.4 // indirect
 	github.com/aymerick/douceur v0.2.0 // indirect
 	github.com/aymerick/raymond v2.0.3-0.20180322193309-b565731e1464+incompatible // indirect
