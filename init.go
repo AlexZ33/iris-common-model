@@ -16,12 +16,23 @@ var (
 func init() {
 	current := time.Now()
 	Schema = iris.Map{
-		"Resource": new(Resource),
+		"Resource":  new(Resource),
+		"Component": new(Component),
+		"Dataset":   new(Dataset),
 	}
 	Citus = iris.Map{}
 	Indexes = map[string][]string{
 		"Resource": {
 			"btree(created_at DESC)",
+		},
+		"Component": {
+			"btree(created_at DESC)",
+			"gin(tenants)",
+		},
+		"Dataset": {
+			"btree(created_at DESC)",
+			"hash(project_id)",
+			"hash(customer_id)",
 		},
 	}
 	Builtin = iris.Map{}
