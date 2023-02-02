@@ -1,6 +1,7 @@
 package iris_common_model
 
 import (
+	helper "github.com/AlexZ33/iris-extend-helper"
 	"github.com/kataras/iris/v12"
 	"time"
 )
@@ -25,15 +26,14 @@ type Group struct {
 }
 
 func (g *Group) Init() *Group {
-	g.Id = Id()
-	g.AccessKey = AccessKey()
+	g.Id = helper.Id()
+	g.AccessKey = helper.AccessKey()
 	if g.ManagerId == "" {
 		g.ManagerId = g.MaintainerId
 	}
 	if g.Visibility == "" {
 		g.Visibility = "internal"
 	}
-
 	if g.Status == "" {
 		g.Status = "active"
 	}
