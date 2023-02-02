@@ -9,28 +9,29 @@ import (
 )
 
 type User struct {
-	Id           string    `json:"id"`
-	Name         string    `json:"name"`
-	Account      string    `json: "account"`
-	Password     string    `json:"password"`
-	Mobile       string    `json:"mobile"`
-	Email        string    `json:"email"`
-	Avatar       string    `json:"avatar"`
-	Description  string    `json:"description"`
-	LoggedIP     net.IP    `json: "logged_ip""`
-	LoggedIn     time.Time `json:"logged-in"`
-	LoggedOut    time.Time `json:"logged_out"`
-	Role         string    `json: "role"`
-	ManagerId    string    `json: "manager_id"`
-	Visibility   string    `json: "visivility"`
-	Status       string    `json: "status"`
-	Metrics      iris.Map  `json: "metrics"`
-	BaseInfo     iris.Map  `json: "base_info"`
-	OtherInfo    iris.Map  `json: "other_info"`
-	CreatedAt    time.Time `json:"create_at"`
-	UpdatedAt    time.Time `json: "update_at"`
-	MaintainerId string    `json: "maintainer_id"`
-	Version      uint64    `json: "version"`
+	tableName struct{} `pg:"alias:user,discard_unknown_columns"`
+
+	Id           string    `pg:"id,pk,type:uuid" json:"id"`
+	Name         string    `pg:"name,notnull" json:"name"`
+	Account      string    `pg:"account,notnull" json:"account"`
+	Password     string    `pg:"password,notnull" json:"password"`
+	Mobile       string    `pg:"mobile" json:"mobile"`
+	Email        string    `pg:"email" json:"email"`
+	Avatar       string    `pg:"avatar" json:"avatar"`
+	Description  string    `pg:"description" json:"description"`
+	LoggedIP     net.IP    `pg:"logged_ip" json:"logged_ip"`
+	LoggedIn     time.Time `pg:"logged_in,default:now()" json:"logged_in"`
+	LoggedOut    time.Time `pg:"logged_out,default:now()" json:"logged_out"`
+	Role         string    `pg:"role,default:'user'" json:"role"`
+	ManagerId    string    `pg:"manager_id,notnull,type:uuid" json:"manager_id"`
+	Visibility   string    `pg:"visibility,default:'internal'" json:"visibility"`
+	Status       string    `pg:"status,default:'active'" json:"status"`
+	Metrics      iris.Map  `pg:"metrics,type:jsonb" json:"metrics"`
+	OtherInfo    iris.Map  `pg:"other_info,type:jsonb" json:"other_info"`
+	CreatedAt    time.Time `pg:"created_at,default:now()" json:"created_at"`
+	UpdatedAt    time.Time `pg:"updated_at,default:now()" json:"updated_at"`
+	MaintainerId string    `pg:"maintainer_id,notnull,type:uuid" json:"maintainer_id"`
+	Version      uint64    `pg:"version,default:0" json:"version"`
 }
 
 // 初始化
