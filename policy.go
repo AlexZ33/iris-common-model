@@ -8,26 +8,26 @@ import (
 type Policy struct {
 	tableName struct{} `pg:"alias:policy,discard_unknown_columns"`
 
-	Id           string    `json:"id"`
-	Name         string    `json:"name"`
-	TenantId     string    `json:"tenant_id"`
-	Subjects     []string  `json:"subjects"`
-	Resources    []string  `json:"resources"`
-	Description  string    `json:"description"`
-	Actions      []string  `json:"actions"`
-	Effect       string    `json:"effect"`
-	Conditions   iris.Map  `json:"conditions"`
-	ValidFrom    time.Time `json:"valid_from"`
-	ExpiresAt    time.Time `json:"expires_at"`
-	ManagerId    string    `json:"manager_id"`
-	Visibility   string    `json:"visibility"`
-	Status       string    `json:"status"`
-	Metrics      iris.Map  `json:"metrics"`
-	OtherInfo    iris.Map  `json:"other_info"`
-	CreatedAt    time.Time `json:"created_at"`
-	UpdatedAt    time.Time `json:"updated_at"`
-	MaintainerId string    `json:"maintainer_id"`
-	Version      uint64    `json:"version"`
+	Id           string    `pg:"id,pk,type:uuid" json:"id"`
+	Name         string    `pg:"name,notnull" json:"name"`
+	TenantId     string    `pg:"tenant_id,notnull,type:uuid" json:"tenant_id"`
+	Subjects     []string  `pg:"subjects,array" json:"subjects"`
+	Resources    []string  `pg:"resources,array" json:"resources"`
+	Description  string    `pg:"description" json:"description"`
+	Actions      []string  `pg:"actions,array" json:"actions"`
+	Effect       string    `pg:"effect,default:'allow'" json:"effect"`
+	Conditions   iris.Map  `pg:"conditions,type:jsonb" json:"conditions"`
+	ValidFrom    time.Time `pg:"valid_from,default:now()" json:"valid_from"`
+	ExpiresAt    time.Time `pg:"expires_at,default:now()" json:"expires_at"`
+	ManagerId    string    `pg:"manager_id,notnull,type:uuid" json:"manager_id"`
+	Visibility   string    `pg:"visibility,default:'internal'" json:"visibility"`
+	Status       string    `pg:"status,default:'active'" json:"status"`
+	Metrics      iris.Map  `pg:"metrics,type:jsonb" json:"metrics"`
+	OtherInfo    iris.Map  `pg:"other_info,type:jsonb" json:"other_info"`
+	CreatedAt    time.Time `pg:"created_at,default:now()" json:"created_at"`
+	UpdatedAt    time.Time `pg:"updated_at,default:now()" json:"updated_at"`
+	MaintainerId string    `pg:"maintainer_id,notnull,type:uuid" json:"maintainer_id"`
+	Version      uint64    `pg:"version,default:0" json:"version"`
 }
 
 func (p *Policy) Init() *Policy {
