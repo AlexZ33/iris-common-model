@@ -7,20 +7,22 @@ import (
 )
 
 type Record struct {
-	Id           string    `json:"id"`
-	Collection   string    `json:"collection"`
-	Content      iris.Map  `json:"content"`
-	RecordedAt   time.Time `json:"recorded_at"`
-	Integrity    string    `json:"integrity"`
-	Signature    string    `json:"signature"`
-	Visibility   string    `json:"visibility"`
-	Status       string    `json:"status"`
-	Metrics      iris.Map  `json:"metrics"`
-	OtherInfo    iris.Map  `json:"other_info"`
-	CreatedAt    time.Time `json:"created_at"`
-	UpdatedAt    time.Time `json:"updated_at"`
-	MaintainerId string    `json:"maintainer_id"`
-	Version      uint64    `json:"version"`
+	tableName struct{} `pg:"alias:record,discard_unknown_columns"`
+
+	Id           string    `pg:"id,pk,type:uuid" json:"id"`
+	Collection   string    `pg:"collection,notnull" json:"collection"`
+	Content      iris.Map  `pg:"content,notnull,type:jsonb" json:"content"`
+	RecordedAt   time.Time `pg:"recorded_at,notnull" json:"recorded_at"`
+	Integrity    string    `pg:"integrity,notnull" json:"integrity"`
+	Signature    string    `pg:"signature,notnull" json:"signature"`
+	Visibility   string    `pg:"visibility,default:'internal'" json:"visibility"`
+	Status       string    `pg:"status,default:'active'" json:"status"`
+	Metrics      iris.Map  `pg:"metrics,type:jsonb" json:"metrics"`
+	OtherInfo    iris.Map  `pg:"other_info,type:jsonb" json:"other_info"`
+	CreatedAt    time.Time `pg:"created_at,default:now()" json:"created_at"`
+	UpdatedAt    time.Time `pg:"updated_at,default:now()" json:"updated_at"`
+	MaintainerId string    `pg:"maintainer_id,notnull,type:uuid" json:"maintainer_id"`
+	Version      uint64    `pg:"version,default:0" json:"version"`
 }
 
 func (r *Record) Init() *Record {
