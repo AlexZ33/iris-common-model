@@ -1,6 +1,7 @@
 package iris_common_model
 
 import (
+	helper "github.com/AlexZ33/iris-extend-helper"
 	"github.com/kataras/iris/v12"
 	"time"
 )
@@ -27,5 +28,31 @@ type Resource struct {
 }
 
 func (r *Resource) Init() *Resource {
+	id := helper.Id()
+	r.Id = id
+	if r.ManagerId == "" {
+		r.ManagerId = r.MaintainerId
+	}
+	if r.ProviderId == "" {
+		r.ProviderId = r.ManagerId
+	}
+	if r.Visibility == "" {
+		r.Visibility = "internal"
+	}
+	if r.Status == "" {
+		r.Status = "active"
+	}
+	return r
+}
 
+func (r *Resource) BasicInfo() iris.Map {
+	return iris.Map{
+		"id":          r.Id,
+		"name":        r.Name,
+		"category":    r.Category,
+		"description": r.Description,
+		"visibility":  r.Visibility,
+		"status":      r.Status,
+		"version":     r.Version,
+	}
 }
