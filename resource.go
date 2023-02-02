@@ -11,10 +11,13 @@ type Resource struct {
 
 	Id           string    `pg:"id, pk, type:uuid" json:"id"`
 	Name         string    `pg:"name, notnull"json:"name"`
+	Type         string    `pg:"type,notnull" json:"type"`
 	Category     string    `pg:"category,notnull" json:"category"`
 	Mime         string    `pg:"mime,notnull" json:"mime"`
 	Path         string    `pg:"path,notnull" json:"path"`
 	Description  string    `pg:"description" json:"description"`
+	Content      iris.Map  `pg:"content,type:jsonb" json:"content"`
+	Tenants      []string  `pg:"tenants,type:uuid[]" json:"tenants"`
 	ProviderId   string    `pg:"provider_id,notnull,type:uuid" json:"provider_id"`
 	ManagerId    string    `pg:"manager_id,notnull" json:"manager_id"`
 	Visibility   string    `pg:"visibility,default:'internal'" json:"visibility"`

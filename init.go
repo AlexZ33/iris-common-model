@@ -16,12 +16,47 @@ var (
 func init() {
 	current := time.Now()
 	Schema = iris.Map{
-		"Resource":  new(Resource),
-		"Component": new(Component),
-		"Dataset":   new(Dataset),
+		"Resource":    new(Resource),
+		"Component":   new(Component),
+		"Repository":  new(Repository),
+		"Collection":  new(Collection),
+		"Field":       new(Field),
+		"Tag":         new(Tag),
+		"Dataset":     new(Dataset),
+		"Record":      new(Record),
+		"Log":         new(Log),
+		"Application": new(Application),
+		"Order":       new(Order),
+		"Project":     new(Project),
+		"Form":        new(Form),
 	}
 	Citus = iris.Map{}
 	Indexes = map[string][]string{
+		"Application": {
+			"btree(created_at DESC)",
+		},
+		"Order": {
+			"btree(created_at DESC)",
+			"hash(application_id)",
+			"hash(dataset_id)",
+		},
+		"Repository": {
+			"btree(created_at DESC)",
+			"hash(status)",
+			"gin(tenants)",
+		},
+		"Collection": {
+			"btree(created_at DESC)",
+			"hash(repository_id)",
+			"hash(customer_id)",
+		},
+		"Field": {
+			"btree(created_at DESC)",
+			"hash(collection_id)",
+		},
+		"Tag": {
+			"btree(created_at DESC)",
+		},
 		"Resource": {
 			"btree(created_at DESC)",
 		},
@@ -29,9 +64,26 @@ func init() {
 			"btree(created_at DESC)",
 			"gin(tenants)",
 		},
+		"Project": {
+			"btree(created_at DESC)",
+			"gin(tenants)",
+		},
 		"Dataset": {
 			"btree(created_at DESC)",
 			"hash(project_id)",
+			"hash(customer_id)",
+		},
+		"Record": {
+			"btree(recorded_at DESC)",
+			"gin(content)",
+		},
+		"Log": {
+			"btree(recorded_at DESC)",
+			"gin(content)",
+		},
+		"Form": {
+			"btree(created_at DESC)",
+			"hash(dataset_id)",
 			"hash(customer_id)",
 		},
 	}
