@@ -6,21 +6,22 @@ import (
 )
 
 type Group struct {
-	Id           string    `json:"id"`
-	Name         string    `json: "name"`
-	Members      []string  `json:"members"`
-	Description  string    `json:"description"`
-	AccessKey    string    `json: "access_key"`
-	ManagerId    string    `json:"manager_id"`
-	Visibility   string    `json:"visibility"`
-	Status       string    `json:"status"`
-	Metrics      iris.Map  `json:"metrics"`
-	BaseInfo     iris.Map  `json: "base_info"`
-	OtherInfo    iris.Map  `json: "other_info"`
-	CreatedAt    time.Time `json:"created_at"`
-	UpdatedAt    time.Time `json: "updated_at"`
-	MaintainerId string    `json: "maintainer_id"`
-	Version      uint64    `json:"version"`
+	tableName struct{} `pg:"alias:group,discard_unknown_columns"`
+
+	Id           string    `pg:"id,pk,type:uuid" json:"id"`
+	Name         string    `pg:"name,notnull" json:"name"`
+	Members      []string  `pg:"members,type:uuid[]" json:"members"`
+	Description  string    `pg:"description" json:"description"`
+	AccessKey    string    `pg:"access_key,notnull" json:"access_key"`
+	ManagerId    string    `pg:"manager_id,notnull,type:uuid" json:"manager_id"`
+	Visibility   string    `pg:"visibility,default:'internal'" json:"visibility"`
+	Status       string    `pg:"status,default:'active'" json:"status"`
+	Metrics      iris.Map  `pg:"metrics,type:jsonb" json:"metrics"`
+	OtherInfo    iris.Map  `pg:"other_info,type:jsonb" json:"other_info"`
+	CreatedAt    time.Time `pg:"created_at,default:now()" json:"created_at"`
+	UpdatedAt    time.Time `pg:"updated_at,default:now()" json:"updated_at"`
+	MaintainerId string    `pg:"maintainer_id,notnull,type:uuid" json:"maintainer_id"`
+	Version      uint64    `pg:"version,default:0" json:"version"`
 }
 
 func (g *Group) Init() *Group {
