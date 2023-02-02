@@ -9,24 +9,26 @@ import (
 )
 
 type Log struct {
-	Id           string    `json:"id"`
-	Service      string    `json:"service"`
-	ServerHost   string    `json:"server_host"`
-	ClientIP     net.IP    `json:"client_ip"`
-	RecordedAt   time.Time `json:"recorded_at"`
-	Level        string    `json:"level"`
-	Topic        string    `json:"topic"`
-	Message      string    `json:"message"`
-	Content      iris.Map  `json:"content"`
-	Source       string    `json:"source"`
-	Visibility   string    `json:"visibility"`
-	Status       string    `json:"status"`
-	Metrics      iris.Map  `json:"metrics"`
-	OtherInfo    iris.Map  `json:"other_info"`
-	CreatedAt    time.Time `json:"created_at"`
-	UpdatedAt    time.Time `json:"updated_at"`
-	MaintainerId string    `json:"maintainer_id"`
-	Version      uint64    `json:"version"`
+	tableName struct{} `pg:"alias:log,discard_unknown_columns"`
+
+	Id           string    `pg:"id,pk,type:uuid" json:"id"`
+	Service      string    `pg:"service,notnull" json:"service"`
+	ServerHost   string    `pg:"server_host,notnull" json:"server_host"`
+	ClientIP     net.IP    `pg:"client_ip,notnull" json:"client_ip"`
+	RecordedAt   time.Time `pg:"recorded_at,notnull" json:"recorded_at"`
+	Level        string    `pg:"level" json:"level"`
+	Topic        string    `pg:"topic" json:"topic"`
+	Message      string    `pg:"message,notnull" json:"message"`
+	Content      iris.Map  `pg:"content,type:jsonb" json:"content"`
+	Source       string    `pg:"source" json:"source"`
+	Visibility   string    `pg:"visibility,default:'internal'" json:"visibility"`
+	Status       string    `pg:"status,default:'active'" json:"status"`
+	Metrics      iris.Map  `pg:"metrics,type:jsonb" json:"metrics"`
+	OtherInfo    iris.Map  `pg:"other_info,type:jsonb" json:"other_info"`
+	CreatedAt    time.Time `pg:"created_at,default:now()" json:"created_at"`
+	UpdatedAt    time.Time `pg:"updated_at,default:now()" json:"updated_at"`
+	MaintainerId string    `pg:"maintainer_id,notnull,type:uuid" json:"maintainer_id"`
+	Version      uint64    `pg:"version,default:0" json:"version"`
 }
 
 func (l *Log) Init() *Log {
